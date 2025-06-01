@@ -5,6 +5,7 @@
     </div>
     <div class="editor-content">
       <div class="editor-sider">
+ 
         <Sider ref="siderRef" @startDrag="onStartDrag"></Sider>
       </div>
       <div class="editor-canvas">

@@ -21,6 +21,7 @@ import NodeFormDialog from './NodeFormDialog.vue';
 import EdgeFormDialog from './EdgeFormDialog.vue';
 import ChainFormDialog from './ChainFormDialog.vue';
 import dagre from '@dagrejs/dagre';
+import { left } from '@antv/x6/lib/registry/port-label-layout/side.js';
 
 const props = defineProps({
     dndContainer: {
@@ -50,7 +51,7 @@ onMounted(() => {
 
 let baseNodeInfo = {
     width: 160,
-    height: 40,
+    height: 100,
     attr: {
         magnet: true,
     },
@@ -82,6 +83,7 @@ let baseNodeInfo = {
                     circle: {
                         magnet: true,
                         stroke: '#8f8f8f',
+                        
                         r: 5,
                     }
                 }
