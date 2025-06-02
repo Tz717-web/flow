@@ -1,6 +1,6 @@
 <template>
-    <div class="canvasView" style="width: 100%; height: 100%;position: relative;">
-        <div ref="flowContainerRef" style="width: 100%; height: 100%"></div>
+    <div class="canvasView" style="width: 200%; height: 200%;position: relative;">
+        <div ref="flowContainerRef" style="width: 200%; height: 200%"></div>
         <TeleportContainer></TeleportContainer>
         <NodeFormDialog ref="nodeFormDialogRef"></NodeFormDialog>
         <EdgeFormDialog ref="edgeFormDialogRef"></EdgeFormDialog>
@@ -63,7 +63,7 @@ let baseNodeInfo = {
                     circle: {
                         magnet: true,
                         stroke: '#8f8f8f',
-                        r: 5,
+                        r: 10,
                     },
                 },
             },
@@ -73,7 +73,7 @@ let baseNodeInfo = {
                     circle: {
                         magnet: true,
                         stroke: '#8f8f8f',
-                        r: 5,
+                        r: 10,
                     },
                 },
             },
@@ -84,7 +84,7 @@ let baseNodeInfo = {
                         magnet: true,
                         stroke: '#8f8f8f',
                         
-                        r: 5,
+                        r: 10,
                     }
                 }
             },
@@ -94,7 +94,7 @@ let baseNodeInfo = {
                     circle: {
                         magnet: true,
                         stroke: '#8f8f8f',
-                        r: 5,
+                        r: 10,
                     }
                 }
             }
@@ -354,6 +354,7 @@ function createNode(type, isAdd = true, x = 10, y = 10) {
             id: id,
             type: nodeType.type,
             title: nodeType.title,
+           
         },
     })
     if (isAdd) {
@@ -437,7 +438,33 @@ function autoLayout(dir = "TB") { // 自动布局
         }
     })
 }
-
+function importData(data, layoutType = 'TB') {
+  try {
+    // 清空当前画布
+    graph.clearCells()
+    
+    // 创建节点
+    const nodes = data.nodes.map(node => {
+      return createNode(node)
+    })
+    
+    // 创建边
+    const edges = data.edges.map(edge => {
+      return createEdge(edge)
+    })
+    
+    // 添加节点和边到画布
+    graph.addNodes(nodes)
+    graph.addEdges(edges)
+    
+    // 自动布局
+    autoLayout(layoutType)
+    
+  } catch (error) {
+    console.error('导入数据失败:', error)
+    throw error
+  }
+}
 defineExpose({
     onSiderStartDrag,
     onEditChainConfig,
@@ -445,6 +472,8 @@ defineExpose({
     setData,
     clear,
     setChain,
-    autoLayout
+    autoLayout,
+    importData
+
 })
 </script>

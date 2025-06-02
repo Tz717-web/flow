@@ -9,7 +9,17 @@
         <a-button type="primary">后退</a-button>
         <a-divider type="vertical" style="background-color: #afafaf"/>
 -->
-        
+         <a-dropdown>
+            <template #overlay>
+                <a-menu @click="toproductionLine">
+                    <a-menu-item key="json">地礼线生产线</a-menu-item>
+                    <a-menu-item key="json">模压坨生产线</a-menu-item>
+                </a-menu>
+            </template>
+            <a-button type="primary">
+                查看生产线
+            </a-button>
+        </a-dropdown>
         <a-dropdown>
             <template #overlay>
                 <a-menu @click="toImport">
@@ -41,7 +51,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const emit = defineEmits(['editChainConfig','toExport','toImport','toClear'])
+const emit = defineEmits(['editChainConfig','toExport','toImport','toClear','toproductionLine'])
 
 function editChainConfig() { 
     emit('editChainConfig')
@@ -53,6 +63,9 @@ function toExport(e) { // 导出当前画布的内容为 JSON 格式的字符串
 
 function toImport(e) { // 导入 JSON 格式的字符串，用于加载或分享的画布内容
     emit('toImport',e.key)
+}
+function toproductionLine(e) { // 导入 JSON 格式的字符串，用于加载或分享的画布内容
+    emit('toproductionLine',e.key)
 }
 
 function toClear() { // 清空当前画布的内容

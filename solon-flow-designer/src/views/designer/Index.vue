@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
     <div class="editor-header">
-      <Header @editChainConfig="onEditChainConfig" @toExport="toExport" @toImport="toImport" @toClear="toClear"></Header>
+      <Header @editChainConfig="onEditChainConfig" @toExport="toExport" @toImport="toImport" @toproductionLine="toproductionLine" @toClear="toClear"></Header>
     </div>
     <div class="editor-content">
       <div class="editor-sider">
@@ -38,6 +38,11 @@ import FlowCanvas from './editor/Canvas.vue';
 import * as utils from '@/utils/index.js'
 import yamlUtils from 'js-yaml'
 import { notification } from 'ant-design-vue';
+import { convertProductionLineToWorkflow } from './editor/productionLineConverter'
+import { importProductionLineToCanvas } from './nodeForm/toproductionLine.js'
+
+
+
 
 const flowCanvasRef = ref(null); // 画布容器的引用
 const siderRef = ref(null); // 侧边栏容器的引用
@@ -170,8 +175,8 @@ function handleImport() {
           x: temp_x, // 节点的 x 坐标
           y: temp_y, // 节点的 y 坐标
         }
-        temp_x += 100;
-        temp_y += 100;
+        temp_x += 0;
+        temp_y += 0;
       }
 
       graphData.cells.push(nodeData); // 将节点数据添加到数组中
@@ -264,7 +269,9 @@ function buildEdgeForStringType(source,target,portPosDef){
       title: null, // 边的标题
     },
   }
+    console.log('edgeData',edgeData)
   return edgeData
+
 }
 
 async function handleCopyExport() {
@@ -280,6 +287,31 @@ async function handleCopyExport() {
     notification.error({
       message: '提示',
       description: '复制失败，请用ctrl + c',
+    })
+  }
+}
+const toproductionLine = async (type) => {
+  try {
+    // 1. 获取生产线数据（这里使用示例数据q.json）
+    const productionLineData = await import('./editor/q.json').then(m => m.default)
+    
+    // 2. 使用辅助方法导入数据到画布
+    const result = await importProductionLineToCanvas(
+      flowCanvasRef.value,
+      productionLineData,
+      state.layoutType || 'TB'
+    )
+    
+    // 3. 显示成功通知
+    notification.success({
+      message: '提示',
+      description: result.message
+    })
+  } catch (error) {
+    console.error('导入生产线数据失败:', error)
+    notification.error({
+      message: '错误',
+      description: '导入生产线数据失败: ' + error.message
     })
   }
 }
