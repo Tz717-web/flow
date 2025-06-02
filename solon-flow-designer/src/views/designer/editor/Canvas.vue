@@ -1,6 +1,6 @@
 <template>
-    <div class="canvasView" style="width: 200%; height: 200%;position: relative;">
-        <div ref="flowContainerRef" style="width: 200%; height: 200%"></div>
+    <div class="canvasView" style="width: 100%; height: 100%;position: relative;">
+        <div ref="flowContainerRef" style="width: 100%; height: 100%"></div>
         <TeleportContainer></TeleportContainer>
         <NodeFormDialog ref="nodeFormDialogRef"></NodeFormDialog>
         <EdgeFormDialog ref="edgeFormDialogRef"></EdgeFormDialog>
