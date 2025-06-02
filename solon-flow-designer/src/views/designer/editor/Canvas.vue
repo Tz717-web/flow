@@ -438,33 +438,6 @@ function autoLayout(dir = "TB") { // 自动布局
         }
     })
 }
-function importData(data, layoutType = 'TB') {
-  try {
-    // 清空当前画布
-    graph.clearCells()
-    
-    // 创建节点
-    const nodes = data.nodes.map(node => {
-      return createNode(node)
-    })
-    
-    // 创建边
-    const edges = data.edges.map(edge => {
-      return createEdge(edge)
-    })
-    
-    // 添加节点和边到画布
-    graph.addNodes(nodes)
-    graph.addEdges(edges)
-    
-    // 自动布局
-    autoLayout(layoutType)
-    
-  } catch (error) {
-    console.error('导入数据失败:', error)
-    throw error
-  }
-}
 defineExpose({
     onSiderStartDrag,
     onEditChainConfig,
@@ -473,7 +446,7 @@ defineExpose({
     clear,
     setChain,
     autoLayout,
-    importData
+  
 
 })
 </script>
